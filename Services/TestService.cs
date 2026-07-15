@@ -18,6 +18,8 @@ namespace englishCardsAPI.Services
         {
             var testDtos = await _context.Tests
                 .Where(test => test.UserId == userId)
+                .OrderByDescending(test => test.TakenAt)
+                .Take(5)
                 .Select(test => new TestResponseDto
                 {
                     Score = test.Score,
