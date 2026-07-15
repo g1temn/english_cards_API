@@ -51,5 +51,38 @@ namespace englishCardsAPI.Services
                 Meaning = newCard.Meaning
             };
         }
+
+        public async Task<CardResponseDto> UpdateCardAsync(int userId, int cardId, CardUpdatingDto updateCardDto)
+        {
+            var updatedCard = await _context.Cards.FirstOrDefaultAsync(c => c.CardId == cardId && c.UserId == userId);
+
+            if (updatedCard == null) return null;
+
+            updatedCard.Title = updateCardDto.Title;
+            updatedCard.Phoneitcs = updateCardDto.Phonetics;
+            updatedCard.Meaning = updateCardDto.Meaning;
+
+            await _context.SaveChangesAsync();
+
+            return new CardResponseDto
+            {
+                CardId = updatedCard.CardId,
+                Title = updatedCard.Title,
+                Phoneitcs = updatedCard.Phoneitcs,
+                Meaning = updatedCard.Meaning
+            };
+        }
+
+        public async Task<bool> DeleteCardAsync(int userId, int cardId)
+        {
+            var deletedCard = await _context.Cards.FirstOrDefaultAsync(c => c.CardId == cardId && c.UserId == userId);
+
+            if (deletedCard == null) return false;
+
+            _context.Cards.Remove(deletedCard);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
