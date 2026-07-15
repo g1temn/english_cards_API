@@ -1,6 +1,8 @@
 ﻿using englishCardsAPI.DTOs;
 using englishCardsAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace englishCardsAPI.Controllers
 {
@@ -43,6 +45,26 @@ namespace englishCardsAPI.Controllers
                 token = result.Token,
                 expiration = result.Expiration
             });
+        }
+
+        [HttpDelete("delete")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return Unauthorized("Invalid token data.");
+            }
+
+            var result = await _authService.DeleteUserAsync(userId);
+            if (!result)
+            {
+                return BadRequest("Failed to delete the user.");
+            }
+
+            return Ok("User deleted successfully.");    
         }
     }
 }

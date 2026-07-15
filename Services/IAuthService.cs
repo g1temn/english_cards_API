@@ -7,5 +7,6 @@ namespace englishCardsAPI.Services
     {
         Task<AuthResultDto> RegisterAsync([FromBody] RegisterUserDto registerUserDto);
         Task<AuthResultDto> LoginAsync([FromBody] LoginUserDto loginUserDto);
+        Task<bool> DeleteUserAsync(int userId);
     }
 }
