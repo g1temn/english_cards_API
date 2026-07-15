@@ -7,5 +7,7 @@ namespace englishCardsAPI.Entities
     {
         public ICollection<Card>? Cards { get; set; }
         public ICollection<Test>? Tests { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
