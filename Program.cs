@@ -10,9 +10,11 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Sqlite db context.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configure identity framework and jwt-token services.
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
@@ -36,15 +38,17 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Add services to manage users, their cards and tests.
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<ITestService, TestService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// Configure Swagger.
 builder.Services.AddSwaggerGen(options =>
 {
-    // 1. Define the security scheme (telling Swagger we are using JWT Bearer)
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -55,7 +59,6 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Enter your valid JWT token in the text input below.\r\n\r\nExample: \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
     });
 
-    // 2. Apply the security globally to all endpoints
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -67,7 +70,7 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer"
                 }
             },
-            Array.Empty<string>() // We don't need any specific scopes for this setup
+            Array.Empty<string>()
         }
     });
 });

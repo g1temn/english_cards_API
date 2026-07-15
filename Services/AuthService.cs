@@ -23,8 +23,10 @@ namespace englishCardsAPI.Services
         public async Task<AuthResultDto> RegisterAsync([FromBody] RegisterUserDto registerUserDto)
         {
             var userExists = await _userManager.FindByEmailAsync(registerUserDto.Email);
-            if (userExists != null) 
-                return new AuthResultDto { Success = false, Message = "User creation failed." };
+            if (userExists != null)
+            {
+                return new AuthResultDto { Success = false, Message = $"User creation failed: The email is already taken." };
+            }
 
             var user = new AppUser
             {
