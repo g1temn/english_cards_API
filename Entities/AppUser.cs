@@ -9,5 +9,7 @@ namespace englishCardsAPI.Entities
         public ICollection<Test>? Tests { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
     }
 }

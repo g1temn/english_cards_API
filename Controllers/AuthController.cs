@@ -40,6 +40,15 @@ namespace englishCardsAPI.Controllers
                 return Unauthorized(result.Message);
             }
 
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+
             return Ok(new
             {
                 token = result.Token,
@@ -65,6 +74,37 @@ namespace englishCardsAPI.Controllers
             }
 
             return Ok("User deleted successfully.");    
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            if (!Request.Cookies.TryGetValue("refreshToken", out var currentRefreshToken))
+            {
+                return Unauthorized("No refresh token found.");
+            }
+
+            var result = await _authService.RefreshSessionAsync(currentRefreshToken);
+
+            if (!result.Success)
+            {
+                return Unauthorized(result.Message);
+            }
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+
+            return Ok(new
+            {
+                token = result.Token,
+                expiration = result.Expiration
+            });
         }
     }
 }
