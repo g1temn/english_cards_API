@@ -44,6 +44,16 @@ builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 
+// Configure CORS to allow requests from the frontend application.
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy("AllowFrontend", builder =>
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -86,10 +96,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

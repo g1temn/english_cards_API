@@ -44,7 +44,7 @@ namespace englishCardsAPI.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
             Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
@@ -95,7 +95,7 @@ namespace englishCardsAPI.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
             Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
@@ -105,6 +105,19 @@ namespace englishCardsAPI.Controllers
                 token = result.Token,
                 expiration = result.Expiration
             });
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("refreshToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+            });
+
+            return Ok(new { message = "Successfully logged out." });
         }
     }
 }
