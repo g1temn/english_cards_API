@@ -22,7 +22,7 @@ namespace englishCardsAPI.Services
                 {
                     CardId = c.CardId,
                     Title = c.Title,
-                    Phoneitcs = c.Phoneitcs,
+                    Phonetics = c.Phonetics,
                     Meaning = c.Meaning
                 })
                 .ToListAsync();
@@ -36,7 +36,7 @@ namespace englishCardsAPI.Services
             {
                 UserId = userId,
                 Title = createCardDto.Title,
-                Phoneitcs = createCardDto.Phoneitcs,
+                Phonetics = createCardDto.Phonetics,
                 Meaning = createCardDto.Meaning
             };
             
@@ -47,7 +47,7 @@ namespace englishCardsAPI.Services
             {
                 CardId = newCard.CardId,
                 Title = newCard.Title,
-                Phoneitcs = newCard.Phoneitcs,
+                Phonetics = newCard.Phonetics,
                 Meaning = newCard.Meaning
             };
         }
@@ -59,7 +59,7 @@ namespace englishCardsAPI.Services
             if (updatedCard == null) return null;
 
             updatedCard.Title = updateCardDto.Title;
-            updatedCard.Phoneitcs = updateCardDto.Phonetics;
+            updatedCard.Phonetics = updateCardDto.Phonetics;
             updatedCard.Meaning = updateCardDto.Meaning;
 
             await _context.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace englishCardsAPI.Services
             {
                 CardId = updatedCard.CardId,
                 Title = updatedCard.Title,
-                Phoneitcs = updatedCard.Phoneitcs,
+                Phonetics = updatedCard.Phonetics,
                 Meaning = updatedCard.Meaning
             };
         }

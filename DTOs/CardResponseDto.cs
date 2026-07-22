@@ -4,7 +4,7 @@
     {
         public int CardId { get; set; }
         public string Title { get; set; } = string.Empty;
-        public string Phoneitcs { get; set; } = string.Empty;
+        public string Phonetics { get; set; } = string.Empty;
         public string Meaning { get; set; } = string.Empty;
     }
 }

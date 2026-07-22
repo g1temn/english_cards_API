@@ -18,7 +18,7 @@ namespace englishCardsAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto     registerUserDto)
         {
             var result = await _authService.RegisterAsync(registerUserDto);
 

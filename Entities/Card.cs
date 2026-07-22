@@ -11,7 +11,7 @@ namespace englishCardsAPI.Entities
         public string Title { get; set; } = string.Empty;
         
         [Required]
-        public string Phoneitcs { get; set; } = string.Empty;
+        public string Phonetics { get; set; } = string.Empty;
         
         [Required]
         public string Meaning { get; set; } = string.Empty;
