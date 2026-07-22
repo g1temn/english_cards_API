@@ -22,6 +22,7 @@ namespace englishCardsAPI.Services
                 .Take(5)
                 .Select(test => new TestResponseDto
                 {
+                    TestId = test.TestId,
                     Score = test.Score,
                     TakenAt = test.TakenAt
                 })
@@ -44,6 +45,7 @@ namespace englishCardsAPI.Services
 
             return new TestResponseDto
             {
+                TestId = newTest.TestId,
                 Score = newTest.Score,
                 TakenAt = newTest.TakenAt
             };
