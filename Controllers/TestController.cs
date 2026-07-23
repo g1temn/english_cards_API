@@ -55,5 +55,24 @@ namespace englishCardsAPI.Controllers
             return Ok(createdTest);
             
         }
+
+        [HttpGet("questions")]
+        [Authorize]
+        public async Task<IActionResult> GetTestQuestions()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            {
+                return Unauthorized("Invalid token data.");
+            }
+            var testQuestions = await _testService.GetTestQuestionsAsync(userId);
+
+            if (testQuestions == null || !testQuestions.Any())
+            {
+                return NotFound("Not enough cards to generate test questions.");
+            }
+
+            return Ok(testQuestions);
+        }
     }
 }

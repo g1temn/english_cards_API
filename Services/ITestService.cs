@@ -7,5 +7,7 @@ namespace englishCardsAPI.Services
         Task<IEnumerable<TestResponseDto>> GetTestsByUserIdAsync(int userId);
 
         Task<TestResponseDto> CreateTestAsync(int userId, TestCreationDto createTestDto);
+
+        Task<IEnumerable<TestQuestionDto>> GetTestQuestionsAsync(int userId);
     }
 }
